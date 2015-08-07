@@ -15,7 +15,7 @@ COPY master.tmpl /etc/nsd/
 COPY nsd.conf.d/qcbase.conf /etc/nsd/nsd.conf.d/
 
 ENV NSD_PORT 5353
-ENV NSD_MASTER "172.16.1.102@$NSD_PORT"
+ENV NSD_MASTER "172.16.1.102@5353"
 
 EXPOSE $NSD_PORT
 EXPOSE $NSD_PORT/udp
