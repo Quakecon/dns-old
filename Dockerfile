@@ -3,25 +3,27 @@ MAINTAINER Shawn Nock <nock@nocko.se>
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -yq \
-    nsd && \
+    unbound && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean
 
-RUN mkdir /etc/nsd/zones /run/nsd && \
-    rm /etc/nsd/nsd.conf
+COPY quakecon.conf /etc/unbound/unbound.conf.d/
 
-COPY nsd.conf /etc/nsd/
-COPY slave.tmpl /etc/nsd/
-COPY nsd.conf.d/qcbase.conf /etc/nsd/nsd.conf.d/
-COPY db* /etc/nsd/zones/
+ENV AUTHORITATIVE_ZONES "at.quakecon.org. \
+    			quakeconcdn.org. \
+			16.172.in-addr.arpa. \
+			17.172.in-addr.arpa. \
+			18.172.in-addr.arpa. \
+			19.172.in-addr.arpa. \
+			20.172.in-addr.arpa. \
+			21.172.in-addr.arpa. \
+			22.172.in-addr.arpa."
+
+ENV AUTHORITATIVE_SERVERS "172.17.1.102@5353 \
+    			  172.17.1.103@5353 \
+    			  172.17.1.104@5353"
+
 COPY run.sh /
-
 RUN chmod +x /run.sh
 
-ENV NSD_PORT 5353
-ENV NSD_SLAVES "172.16.1.103@5353 172.16.1.104@5353" 
-
-EXPOSE $NSD_PORT
-EXPOSE $NSD_PORT/udp
-
-CMD /run.sh
+cmd ["/run.sh"]
