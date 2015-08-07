@@ -11,17 +11,15 @@ RUN mkdir /etc/nsd/zones /run/nsd && \
     rm /etc/nsd/nsd.conf
 
 COPY nsd.conf /etc/nsd/
-COPY slave.tmpl /etc/nsd/
+COPY master.tmpl /etc/nsd/
 COPY nsd.conf.d/qcbase.conf /etc/nsd/nsd.conf.d/
-COPY db* /etc/nsd/zones/
-COPY run.sh /
-
-RUN chmod +x /run.sh
 
 ENV NSD_PORT 5353
-ENV NSD_SLAVES "172.16.1.103@$NSD_PORT 172.16.1.104@$NSD_PORT" 
+ENV NSD_MASTER "172.16.1.102@$NSD_PORT"
 
 EXPOSE $NSD_PORT
 EXPOSE $NSD_PORT/udp
 
+COPY run.sh /
+RUN chmod +x /run.sh
 CMD /run.sh
