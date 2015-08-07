@@ -1,0 +1,13 @@
+$TTL 1800
+@       IN      SOA     ns0.at.quakecon.org. domain.quakecon.org. (
+                     2014071501         ; Serial
+                           1200         ; Refresh
+                            180         ; Retry
+                        2419200         ; Expire
+                          10800 )       ; Negative Cache TTL
+;
+        IN      NS      ns2.at.quakecon.org.
+        IN      NS      ns3.at.quakecon.org.
+
+10	IN	PTR	regsvr1.at.quakecon.org.
+11	IN	PTR	reg.at.quakecon.org.
